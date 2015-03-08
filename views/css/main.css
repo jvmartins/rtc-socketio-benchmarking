@@ -1,0 +1,28 @@
+html, body {
+    height:100%;
+}
+
+.container {
+	border: 1px solid black;
+	height: 100%;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.content {
+	padding: 30px;
+}
+
+#received-webRTC, #received-socketIO {
+	border: 1px solid black;
+	overflow: auto;
+	height: 100px;
+}
+
+.margin-10 {
+	margin: 10px;
+}

@@ -1,0 +1,6 @@
+{
+  "name": "rtc-socketio-benchmarking",
+  "dependencies": {
+    "jquery": "1.x"
+  }
+}
