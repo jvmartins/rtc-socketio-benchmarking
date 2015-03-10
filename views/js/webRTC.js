@@ -46,12 +46,6 @@ function createConnection() {
   closeButton.prop("disabled", false);
 }
 
-function sendData() {
-  var data = $('#sendText').val();
-  trace('Sent data: ' + data);
-  sendChannel.send(data);
-}
-
 function gotLocalDescription(desc) {
   localPeerConnection.setLocalDescription(desc);
   trace('Offer from localPeerConnection \n' + desc.sdp);
@@ -91,7 +85,7 @@ function gotReceiveChannel(event) {
 
 function handleMessage(event) {
   trace('Received message: ' + event.data);
-  $('#received-webRTC').append('<p>' + event.data + '</p>');
+  $('#received-webRTC').append('<span>"' + event.data + '" - in ' + Date.now() + ' milliseconds </span></br>');
 }
 
 function handleSendChannelStateChange() {
@@ -135,6 +129,5 @@ function closeDataChannels() {
 }
 
 $(function(){
-	$("#send").click(sendData);
 	createConnection();
 });
