@@ -17,10 +17,7 @@ var server = app.listen(3000, function () {
 var io = require('socket.io')(server);
 
 io.on('connection', function (socket) {
-  	// do something on connection
   	socket.on('clientMessage', function (data) {
-		//console.log('Message sent SocketIO: ' + data.message);
-		//console.log('Date: ' + Date.now());
 		var currentTimestamp = Date.now();
 		io.emit('serverMessage', { 
 			message : data.message, 
