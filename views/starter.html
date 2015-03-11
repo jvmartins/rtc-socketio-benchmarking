@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>WebRTC vs SocketIO - The Messenger</title>
+		<title>WebRTC vs SocketIO - The Starter</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="css/main.css">
-
+		
+		
 		<script type="text/javascript">
 
 		var socket = io.connect('http://localhost:3000');
@@ -16,26 +16,27 @@
 			$("#send").click(sendData);
 
 			function sendData() {
-			  var data = $('#sendText').val();
+			  var data = "Test 1";
 			  var jsonData = { 
 			  	message : data, 
 			  	date : Date.now()
 			  };
 			  socket.emit('clientMessage', jsonData);
+			  window.location = "/";
 			}
 		});
 		</script>
 	</head>
 
 	<body>
-		<div class="container">
-			<div class="content row text-center">
+		<div class="container" style="max-width: 600px;">
+			<div class="well text-center">
 				<div>
-					<textarea cols="50" placeholder="Write here a message to send via WebRTC and SocketIO" id="sendText"></textarea>
+					<button class="btn btn-default btn-lg btn-block" id="send">Start</button>
 				</div>
-				<div>
-					<button class="btn btn-primary" id="send">Send</button>
-				</div>
+			</div>
+			<div class="text-center">
+				This button will trigger five different requests to server using SocketIO and WebRTC
 			</div>
 		</div>
 	</body>
