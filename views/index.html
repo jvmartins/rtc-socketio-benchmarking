@@ -4,61 +4,47 @@
 		<title>WebRTC vs SocketIO - The Benchmarking</title>
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+		
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
+
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 
-		<script src="js/webRTC.js"></script>
+		<script src="js/easyRTC.js"></script>
 		<script src="js/socketIO.js"></script>
-
-		<script type="text/javascript">
-		$(function(){
-			$("#send").click(sendData);
-
-			function sendData() {
-			  var data = $('#sendText').val();
-			  trace('Sent data: ' + data);
-			  sendChannel.send(data);
-			  var jsonData = { 
-			  	message : data, 
-			  	date : Date.now()
-			  };
-			  socket.emit('clientMessage', jsonData);
-			}
-		});
-		</script>
 	</head>
 
 	<body>
-		<div class="container">
-			<div class="content row text-center">
-				<div>
-					<textarea cols="50" placeholder="Write here a message to send via WebRTC and SocketIO" id="sendText"></textarea>
-				</div>
-				<div>
-					<button class="btn btn-primary" id="send">Send</button>
-				</div>
-			</div>
+		<div class="container" style="background-color: #ABBAD4">
 			<div class="row">
-				<div class="col-md-6">	
+				<div class="col-md-6 text-center">	
 					<div>
 						<h2><span style="color:green">WebRTC</span> Responses</h2> 
 						<!-- <button id="close-RTC" class="btn btn-primary margin-10">Close</button> -->
 						<div id="received-webRTC"></div>
+
+						<div id="sendMessageArea">
+				          <div id="iam">Obtaining ID...</div>
+				          <textarea id="sendMessageText"></textarea>
+				          <div id="otherClients"></div>
+				        </div>
+				        <div id="receiveMessageArea">
+				          Received Messages:
+				          <div id="conversation"></div>
+				        </div>
+
 					</div>
 				</div>
-				<div class="col-md-6">
+				<div class="col-md-6 text-center">
 					<div>
 						<h2><span style="color:blue">SocketIO</span> Responses</h2>
 						<!-- <button id="close-IO" class="btn btn-primary margin-10">Close</button> -->
 						<div id="received-socketIO"></div>
 					</div>
 				</div>
-			</div>
-			<div class="row graphics">
 
 			</div>
-			
 		</div>
 	</body>
 </html>

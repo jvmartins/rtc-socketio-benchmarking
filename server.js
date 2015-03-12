@@ -1,4 +1,6 @@
 var express = require('express')
+var easyrtc = require('easyrtc')
+
 var app = express()
 
 app.set("view options", {layout: false})
@@ -16,7 +18,34 @@ var server = app.listen(3000, function () {
 
 var io = require('socket.io')(server);
 
+// Start EasyRTC server with options to change the log level and add dates to the log.
+var easyrtcServer = easyrtc.listen(app, io,
+        { logLevel: "debug", logDateEnable: true },
+        function(err, rtc) {
+
+            // After the server has started, we can still change the default room name
+            rtc.setOption("roomDefaultName", "SectorZero");
+
+            // Creates a new application called MyApp with a default room named "SectorOne".
+            rtc.createApp(
+                "easyrtc.instantMessaging",
+                { "roomDefaultName" : "SectorOne" },
+                myEasyrtcApp
+            );
+        }
+);
+
+// Setting option for specific application
+var myEasyrtcApp = function(err, appObj) {
+    // All newly created rooms get a field called roomColor.
+    // Note this does not affect the room "SectorOne" as it was created already.
+    appObj.setOption("roomDefaultFieldObj",
+         {"roomColor":{fieldValue:"orange", fieldOption:{isShared:true}}}
+    );
+};
+
 io.on('connection', function (socket) {
+
   	socket.on('clientMessage', function (data) {
 		var currentTimestamp = Date.now();
 		io.emit('serverMessage', { 
@@ -25,5 +54,6 @@ io.on('connection', function (socket) {
 			currentTimestamp : currentTimestamp 
 		});
 	});
+
 });
 

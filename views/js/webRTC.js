@@ -2,6 +2,8 @@
 
 /* globals webkitRTCPeerConnection */
 
+
+
 var localPeerConnection, remotePeerConnection;
 var sendChannel, receiveChannel;
 

@@ -2,31 +2,17 @@
 <html>
 	<head>
 		<title>WebRTC vs SocketIO - The Starter</title>
+		
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 		
-		
-		<script type="text/javascript">
+		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+		<script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
 
-		var socket = io.connect('http://localhost:3000');
-
-		$(function(){
-			$("#send").click(sendData);
-
-			function sendData() {
-			  var data = "Test 1";
-			  var dataTest1 = { 
-			  	message : data, 
-			  	date : Date.now()
-			  };
-			  socket.emit('clientMessage', dataTest1);
-			  $("#send").attr('disabled', true);
-			  $('#info').append('</br><span style="color: red;"> Test has been started. Check out <a href="/">initial page</a> for tests graphics on your device and browser.</span>');
-			}
-		});
-		</script>
+		<script type="text/javascript" src="js/starter.js"></script>
+		<script src="js/easyRTC.js"></script>
 	</head>
 
 	<body>
@@ -39,6 +25,15 @@
 			<div id="info" class="text-center">
 				This button will trigger five different requests to server using SocketIO and WebRTC
 			</div>
+			<div id="sendMessageArea">
+	          <div id="iam">Obtaining ID...</div>
+	          <textarea id="sendMessageText"></textarea>
+	          <div id="otherClients"></div>
+	        </div>
+	        <div id="receiveMessageArea">
+	          Received Messages:
+	          <div id="conversation"></div>
+	        </div>
 		</div>
 	</body>
 </html>
