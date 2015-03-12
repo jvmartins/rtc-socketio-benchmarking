@@ -12,11 +12,12 @@
 		<script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
 
 		<script type="text/javascript" src="js/starter.js"></script>
-		<script src="js/easyRTC.js"></script>
 	</head>
 
 	<body>
 		<div class="container" style="max-width: 600px; padding-top: 10%;">
+			<div id="connectionRTC">Waiting for RTC connection...</div>
+			<div id="connectionSocketIO">Waiting for SocketIO connection...</div>
 			<div class="well text-center">
 				<div>
 					<button class="btn btn-default btn-lg btn-block" id="send">Start</button>
@@ -25,15 +26,6 @@
 			<div id="info" class="text-center">
 				This button will trigger five different requests to server using SocketIO and WebRTC
 			</div>
-			<div id="sendMessageArea">
-	          <div id="iam">Obtaining ID...</div>
-	          <textarea id="sendMessageText"></textarea>
-	          <div id="otherClients"></div>
-	        </div>
-	        <div id="receiveMessageArea">
-	          Received Messages:
-	          <div id="conversation"></div>
-	        </div>
 		</div>
 	</body>
 </html>

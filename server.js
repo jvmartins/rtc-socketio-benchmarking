@@ -37,15 +37,12 @@ var easyrtcServer = easyrtc.listen(app, io,
 
 // Setting option for specific application
 var myEasyrtcApp = function(err, appObj) {
-    // All newly created rooms get a field called roomColor.
-    // Note this does not affect the room "SectorOne" as it was created already.
     appObj.setOption("roomDefaultFieldObj",
-         {"roomColor":{fieldValue:"orange", fieldOption:{isShared:true}}}
+         { "roomColor" : { fieldValue:"orange", fieldOption: { isShared:true } } }
     );
 };
 
 io.on('connection', function (socket) {
-
   	socket.on('clientMessage', function (data) {
 		var currentTimestamp = Date.now();
 		io.emit('serverMessage', { 
