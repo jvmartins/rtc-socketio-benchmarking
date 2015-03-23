@@ -6,4 +6,4 @@ Results shown in Bar charts for:
 - Time vs Technology analysis of each interaction
 - For each technology:
   - Time vs Connection (Bluetooth, Wi-fi and 3G Network)
-  - Time vs Device (Client side)
+  - Time vs Device (Client)
