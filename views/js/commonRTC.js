@@ -3,6 +3,12 @@ var connectList = {};
 var channelIsActive = {}; // Tracks which channels are active
 
 function configureRTCDataChannel(){
+    setPropertiesRTC();
+    setListeners();
+    connectRTC(); // connects to room for data exchanging
+}
+
+function setPropertiesRTC(){
     easyrtc.enableDebug(false);
     easyrtc.enableVideo(false);
     easyrtc.enableAudio(false);
@@ -10,13 +16,13 @@ function configureRTCDataChannel(){
     easyrtc.enableAudioReceive(false);
 
     easyrtc.enableDataChannels(true); // only enables data channels
-    
+}
+
+function setListeners(){
     easyrtc.setDataChannelOpenListener(openListener);
     easyrtc.setDataChannelCloseListener(closeListener);
 
     setRTCCustomListeners(); // implemented by peers to add custom listeners
-
-    connectRTC(); // connects to room for data exchanging
 }
 
 function setRTCCustomListeners(){
