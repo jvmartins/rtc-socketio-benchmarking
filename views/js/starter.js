@@ -1,4 +1,4 @@
-var socket = io.connect('http://192.168.0.10:3000');
+var socket = io.connect('http://localhost:3000');
 
 $(function(){
 	$('#send').click(sendData);
@@ -6,13 +6,13 @@ $(function(){
 	connectEasyRTC();
 
 	function sendData() {
-	  var data = "Test 1";
-	  var dataTest1 = { 
-	  	message : data, 
+	  var strData = "Test 1";
+	  var jsonData = { 
+	  	message : strData, 
 	  	date : Date.now()
 	  };
-	  sendStuffP2P(serverEasyrtcid, data);
-	  socket.emit('clientMessage', dataTest1);
+	  sendStuffP2P(serverEasyrtcid, strData);
+	  socket.emit('clientMessage', jsonData);
 	  $("#send").attr('disabled', true);
 	  $('#info').append('</br><span style="color: red;"> Test has been started. Check out <a href="/">initial page</a> for tests graphics on your device and browser.</span>');
 	}
@@ -51,7 +51,7 @@ function closeListener(otherParty) {
     channelIsActive[otherParty] = false;
 }
 
-function automaticStartCall(roomName, occupantList, isPrimary) {
+function automaticStartCall(roomName, occupantList) {
 	connectList = occupantList;
 	for (var easyrtcid in connectList) {
 		startCall(easyrtcid);
@@ -62,7 +62,7 @@ function automaticStartCall(roomName, occupantList, isPrimary) {
 function startCall(otherEasyrtcid) {
     if (easyrtc.getConnectStatus(otherEasyrtcid) === easyrtc.NOT_CONNECTED) {
         try {
-          easyrtc.call(otherEasyrtcid,
+            easyrtc.call(otherEasyrtcid,
                 function(caller, media) { // success callback
                     if (media === 'datachannel') {
                         // console.log("made call succesfully");
@@ -76,7 +76,7 @@ function startCall(otherEasyrtcid) {
                 function(wasAccepted) {
                     // console.log("was accepted=" + wasAccepted);
                 });
-          $('#connectionRTC').html("RTC Connected");
+            $('#connectionRTC').html("RTC Connected");
         } catch(callerror) {
             console.log("saw call error ", callerror);
         }

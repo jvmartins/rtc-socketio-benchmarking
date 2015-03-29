@@ -3,7 +3,7 @@ var easyrtc = require('easyrtc')
 
 var app = express()
 
-app.set("view options", {layout: false})
+app.set("view options", { layout: false })
 app.use(express.static(__dirname + '/views'))
 
 app.get('/', function (req, res) {
@@ -44,12 +44,12 @@ var myEasyrtcApp = function(err, appObj) {
 
 io.on('connection', function (socket) {
   	socket.on('clientMessage', function (data) {
-		var currentTimestamp = Date.now();
-		io.emit('serverMessage', { 
-			message : data.message, 
-			date : currentTimestamp - data.date, 
-			currentTimestamp : currentTimestamp 
-		});
+  		var currentTimestamp = Date.now();
+  		io.emit('serverMessage', { 
+  			message : data.message, 
+  			date : currentTimestamp - data.date, 
+  			currentTimestamp : currentTimestamp 
+  		});
 	});
 
 });

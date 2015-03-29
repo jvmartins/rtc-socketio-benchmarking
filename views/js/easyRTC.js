@@ -33,33 +33,6 @@ function closeListener(otherParty) {
     channelIsActive[otherParty] = false;
 }
 
-function startCall(otherEasyrtcid) {
-    if (easyrtc.getConnectStatus(otherEasyrtcid) === easyrtc.NOT_CONNECTED) {
-        try {
-          easyrtc.call(otherEasyrtcid,
-                function(caller, media) { // success callback
-                    if (media === 'datachannel') {
-                        // console.log("made call succesfully");
-                        connectList[otherEasyrtcid] = true;
-                    }
-                },
-                function(errorCode, errorText) {
-                    connectList[otherEasyrtcid] = false;
-                    easyrtc.showError(errorCode, errorText);
-                },
-                function(wasAccepted) {
-                    // console.log("was accepted=" + wasAccepted);
-                }
-        );
-        } catch(callerror) {
-            console.log("saw call error ", callerror);
-        }
-    }
-    else {
-        easyrtc.showError("ALREADY-CONNECTED", "already connected to " + easyrtc.idToName(otherEasyrtcid));
-    }
-}
-
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
 }
