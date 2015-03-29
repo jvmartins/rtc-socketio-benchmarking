@@ -35,6 +35,7 @@ function closeListener(otherParty) {
 
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
+    console.log(easyrtcid);
 }
 
 function loginFailure(errorCode, message) {
