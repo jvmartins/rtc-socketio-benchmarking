@@ -1,73 +1,48 @@
-var socket = io.connect('http://localhost:3000');
+var socket;
+var messageCount = 0;
 
 $(function(){
-	$('#send').click(sendData);
-	$('#connectionSocketIO').html('SocketIO Connected');
-	connectEasyRTC();
+    $('#send').click(sendData);
 
-	function sendData() {
-	  var strData = "Test 1";
-	  var jsonData = { 
-	  	message : strData, 
-	  	date : Date.now()
-	  };
-      //startCall(serverEasyrtcid);
-	  sendStuffP2P(serverEasyrtcid, strData);
-	  socket.emit('clientMessage', jsonData);
-	  //$("#send").disable();
-	  $('#info').append('</br><span style="color: red;"> Test has been started. Check out <a href="/">initial page</a> for tests graphics on your device and browser.</span>');
-	}
-
+	configureRTCDataChannel();
+    configureSocketIO();
 });
 
-var selfEasyrtcid = "";
-var connectList = {};
-var channelIsActive = {}; // tracks which channels are active
-var serverEasyrtcid = "";
+function configureSocketIO(){
+    socket = io.connect('http://localhost:3000')
+    $('#connectionSocketIO').html('SocketIO Connected');
+}
 
-function connectEasyRTC(){
-	easyrtc.enableDebug(false);
-    easyrtc.enableVideo(false);
-    easyrtc.enableAudio(false);
-    easyrtc.enableVideoReceive(false);
-    easyrtc.enableAudioReceive(false);
-
-    easyrtc.enableDataChannels(true);
-
-    easyrtc.setDataChannelOpenListener(openListener);
-    easyrtc.setDataChannelCloseListener(closeListener);
-
-    // easyrtc.setPeerListener(addToConversation);
+function setRTCCustomListeners(){
     easyrtc.setRoomOccupantListener(automaticStartCall);
-    
-    easyrtc.connect("easyrtc.dataMessaging", loginSuccess, loginFailure);
-}
-
-function openListener(otherParty) {
-    channelIsActive[otherParty] = true;
-}
-
-function closeListener(otherParty) {
-    channelIsActive[otherParty] = false;
 }
 
 function automaticStartCall(roomName, occupantList) {
 	connectList = occupantList;
-	for (var easyrtcid in connectList) {
-        console.log("Room occupant: " + easyrtcid);
-		startCall(easyrtcid);
-		serverEasyrtcid = easyrtcid;
-	}
+    var numberOfOccupants = Object.keys(occupantList).length;
+    console.log("Occupant list updated, size: " + numberOfOccupants);
+    if(numberOfOccupants > 0) {
+    	for (var easyrtcid in connectList) {
+            console.log("Room occupant: " + easyrtcid);
+    		startCall(easyrtcid);
+    		serverEasyrtcid = easyrtcid;
+    	}
+    } else {
+        document.getElementById("send").disabled = true;
+        console.log("Not connected to any peer via datachannel");
+        $('#connectionRTC').html("Waiting for RTC connection...");
+    }
 }
 
 function startCall(otherEasyrtcid) {
     if (easyrtc.getConnectStatus(otherEasyrtcid) === easyrtc.NOT_CONNECTED) {
         try {
             easyrtc.call(otherEasyrtcid,
-                function(caller, media) { // success callback
+                function(caller, media) {
                     if (media === 'datachannel') {
                         document.getElementById("send").disabled = false;
-                        console.log("call made successfully");
+                        console.log("Connected to peer via datachannel");
+                        $('#connectionRTC').html("RTC Connected");
                         connectList[otherEasyrtcid] = true;
                     }
                 },
@@ -76,32 +51,32 @@ function startCall(otherEasyrtcid) {
                     easyrtc.showError(errorCode, errorText);
                 },
                 function(wasAccepted) {
-                    console.log("was accepted=" + wasAccepted);
+                    console.log("Was accepted = " + wasAccepted);
                 });
-            $('#connectionRTC').html("RTC Connected");
         } catch(callerror) {
-            console.log("saw call error ", callerror);
+            console.log("Saw call error ", callerror);
         }
     } else {
-        //easyrtc.showError("ALREADY-CONNECTED", "already connected to " + easyrtc.idToName(otherEasyrtcid));
+        console.log("Already connected to " + easyrtc.idToName(otherEasyrtcid));
     }
+}
+
+function sendData() {
+    var strData = 'Message';
+    var jsonData = { message : strData, date : Date.now() };
+
+    sendStuffP2P(serverEasyrtcid, jsonData); // Send message P2P via RTC
+
+    socket.emit('clientMessage', jsonData); // Send SocketIO
+
+    $('#log').html('<p>Message Sent! (' + ++messageCount + ')</p>')
 }
 
 function sendStuffP2P(otherEasyrtcid, msg) {
     if (easyrtc.getConnectStatus(otherEasyrtcid) === easyrtc.IS_CONNECTED) {
-        console.log(otherEasyrtcid);
         easyrtc.sendDataP2P(otherEasyrtcid, 'msg', msg);
-        console.log("after");
+        console.log("Message sent to " + otherEasyrtcid);
     } else {
-        easyrtc.showError("NOT-CONNECTED", "not connected to " + easyrtc.idToName(otherEasyrtcid) + " yet.");
+        easyrtc.showError("", "Not connected to " + easyrtc.idToName(otherEasyrtcid) + " yet.");
     }
-}
-
-function loginSuccess(easyrtcid) {
-    selfEasyrtcid = easyrtcid;
-    console.log(easyrtcid);
-}
-
-function loginFailure(errorCode, message) {
-    easyrtc.showError(errorCode, "failure to login");
 }
