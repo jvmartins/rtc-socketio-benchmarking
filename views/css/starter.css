@@ -1,3 +1,7 @@
+body {
+	font-family: Trebuchet, Verdana;
+}
+
 .container {
 	padding-top: 10%;
 	width: 80%;
@@ -16,18 +20,21 @@
 	border-style: solid;
 	
 	margin: 10px auto;
+
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .red {
-	background-color: red;
+	background-color: #BF7374;
 }
 
 .green {
-	background-color: green;
+	background-color: #7ECC5A;
 }
 
 #connectionSocketIO, #connectionRTC {
 	font-weight: bold;
-	font-family: Verdana;
-	font-size: 8px;
+	font-size: 10px;
 }
