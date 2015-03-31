@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>WebRTC vs SocketIO - The Starter</title>
-		
-		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<link rel="icon" type="image/png" href="css/bargraph_favicon.png" />
 
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    	<title>WebRTC vs SocketIO - The Starter</title>
+
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		
+
+		<link rel="stylesheet" type="text/css" href="css/starter.css">
+
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/easyrtc/easyrtc.js"></script>
 
@@ -17,16 +20,32 @@
 	</head>
 
 	<body>
-		<div class="container" style="max-width: 600px; padding-top: 10%;">
-			<div id="connectionRTC">Waiting for RTC connection...</div>
-			<div id="connectionSocketIO">Waiting for SocketIO connection...</div>
-			<div class="well text-center">
-				<div>
-					<button class="btn btn-default btn-lg btn-block" id="send" disabled>Start</button>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4 text-center"></div>
+				<div class="col-md-2 text-center">	
+					<div class="circle red">
+						<span id="connectionRTC">RTC</span>
+					</div>
 				</div>
+				<div class="col-md-2 text-center">	
+					<div class="circle red">
+						<span id="connectionSocketIO">SocketIO</span>
+					</div>
+				</div>
+				<div class="col-md-4 text-center"></div>
+			</div>
+			<div class="row">
+				<div class="col-md-3 text-center"></div>
+				<div class="col-md-6 text-center">
+					<div class="well">
+						<button class="btn btn-default btn-lg btn-block" id="send" disabled>Start</button>
+					</div>
+				</div>
+				<div class="col-md-3 text-center"></div>
 			</div>
 			<div id="info" class="text-center">
-				This button will trigger five different requests to server using SocketIO and WebRTC
+				This button will trigger a message to server using SocketIO and WebRTC
 			</div>
 			<div id="log" class="text-center"></div>
 		</div>

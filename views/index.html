@@ -2,9 +2,13 @@
 <html>
 	<head>
 		<title>WebRTC vs SocketIO - The Benchmarking</title>
+
+		<link rel="icon" type="image/png" href="css/bargraph_favicon.png" />
+		
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
 		<link rel="stylesheet" type="text/css" href="css/main.css">
 
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -18,19 +22,19 @@
 	<body>
 		<div class="container" style="background-color: #ABBAD4">
 			<div class="row">
-				<div class="col-md-6 text-center">	
+				<div class="col-md-4 text-center">	
 					<div>
-						<h2><span style="color:green">WebRTC</span> Responses</h2> 
+						<h4>WebRTC Responses</h4> 
 						<div id="received-webRTC"></div>
 					</div>
-				</div>
-				<div class="col-md-6 text-center">
 					<div>
-						<h2><span style="color:blue">SocketIO</span> Responses</h2>
+						<h4>SocketIO Responses</h4>
 						<div id="received-socketIO"></div>
 					</div>
 				</div>
-
+				<div class="col-md-8 text-center">
+					Charts...
+				</div>
 			</div>
 		</div>
 	</body>

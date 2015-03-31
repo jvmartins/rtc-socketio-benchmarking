@@ -1,0 +1,33 @@
+.container {
+	padding-top: 10%;
+	width: 80%;
+}
+
+.circle {
+	width: 80px;
+	height: 80px;
+	
+	-moz-border-radius: 40px;
+	-webkit-border-radius: 40px;
+	border-radius: 40px;
+	
+	border-color: black;
+	border-width: 1px;
+	border-style: solid;
+	
+	margin: 10px auto;
+}
+
+.red {
+	background-color: red;
+}
+
+.green {
+	background-color: green;
+}
+
+#connectionSocketIO, #connectionRTC {
+	font-weight: bold;
+	font-family: Verdana;
+	font-size: 8px;
+}

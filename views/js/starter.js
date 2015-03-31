@@ -10,7 +10,9 @@ $(function(){
 
 function configureSocketIO(){
     socket = io.connect('http://localhost:3000')
-    $('#connectionSocketIO').html('SocketIO Connected');
+    //$('#connectionSocketIO').html('SocketIO Connected');
+    $('#connectionSocketIO').parent().removeClass("red");
+    $('#connectionSocketIO').parent().addClass("green");
 }
 
 function setRTCCustomListeners(){
@@ -30,7 +32,8 @@ function automaticStartCall(roomName, occupantList) {
     } else {
         document.getElementById("send").disabled = true;
         console.log("Not connected to any peer via datachannel");
-        $('#connectionRTC').html("Waiting for RTC connection...");
+        $('#connectionRTC').parent().removeClass("green");
+        $('#connectionRTC').parent().addClass("red");
     }
 }
 
@@ -42,7 +45,9 @@ function startCall(otherEasyrtcid) {
                     if (media === 'datachannel') {
                         document.getElementById("send").disabled = false;
                         console.log("Connected to peer via datachannel");
-                        $('#connectionRTC').html("RTC Connected");
+                        //$('#connectionRTC').html("RTC Connected");
+                        $('#connectionRTC').parent().removeClass("red");
+                        $('#connectionRTC').parent().addClass("green");
                         connectList[otherEasyrtcid] = true;
                     }
                 },
