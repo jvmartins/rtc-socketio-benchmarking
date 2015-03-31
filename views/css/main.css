@@ -3,14 +3,11 @@ html, body {
 }
 
 .container {
-	border: 1px solid black;
 	height: 100%;
 }
 
 .vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
+	/* add style for vertical middle alignment */
 }
 
 .content {
@@ -23,5 +20,5 @@ html, body {
 }
 
 .charts {
-	border-top: 1px solid black;
+	/* add style for charts  */
 }

@@ -4,7 +4,7 @@
 		<title>WebRTC vs SocketIO - The Benchmarking</title>
 
 		<link rel="icon" type="image/png" href="css/bargraph_favicon.png" />
-		
+
 		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -20,7 +20,8 @@
 	</head>
 
 	<body>
-		<div class="container" style="background-color: #ABBAD4">
+		<div class="container vcenter">
+			<div class="row" style="height: 20%"></div>
 			<div class="row">
 				<div class="col-md-4 text-center">	
 					<div>
@@ -32,8 +33,16 @@
 						<div id="received-socketIO"></div>
 					</div>
 				</div>
-				<div class="col-md-8 text-center">
-					Charts...
+				<div class="col-md-8 text-left">
+					<div class="charts" id="bar-chart">
+						Bar Chart - WiFi Connection
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-4 text-center"></div>
+				<div class="col-md-8 text-center" style="border: 1px solid black">
+					Device information
 				</div>
 			</div>
 		</div>
