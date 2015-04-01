@@ -1,4 +1,5 @@
-# WebRTC vs SocketIO - Benchmarking
+WebRTC vs SocketIO - Benchmarking [![Build Status](https://travis-ci.org/jvmartins/rtc-socketio-benchmarking.svg?branch=master)](https://travis-ci.org/jvmartins/rtc-socketio-benchmarking)
+==========================
 
 A Benchmarking for analysing time in exchanging data through SocketIO and WebRTC.
 
