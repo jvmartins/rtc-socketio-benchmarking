@@ -47,8 +47,12 @@ io.on('connection', function (socket) {
   		io.emit('serverMessage', { 
   			message : data.message, 
   			date : currentTimestamp - data.date, 
-  			currentTimestamp : currentTimestamp 
+  			currentTimestamp : currentTimestamp,
+        messageId: data.messageId
   		});
+      socket.on('deviceInfo', function (data) {
+        io.emit('deviceInfoFromServer', data);
+      });
 	});
 
 });

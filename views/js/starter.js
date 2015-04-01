@@ -9,7 +9,9 @@ $(function(){
 });
 
 function configureSocketIO(){
-    socket = io.connect('http://localhost:3000')
+    // TO RUN LOCALLY
+    //socket = io.connect('http://localhost:3000');
+    socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
     //$('#connectionSocketIO').html('SocketIO Connected');
     $('#connectionSocketIO').parent().removeClass("red");
     $('#connectionSocketIO').parent().addClass("green");
@@ -68,13 +70,20 @@ function startCall(otherEasyrtcid) {
 
 function sendData() {
     var strData = 'Message';
-    var jsonData = { message : strData, date : Date.now() };
+    var jsonData = { message: strData, date: Date.now(), messageId: messageCount };
 
     sendStuffP2P(serverEasyrtcid, jsonData); // Send message P2P via RTC
-
+    
     socket.emit('clientMessage', jsonData); // Send SocketIO
 
     $('#log').html('<p>Message Sent! (' + ++messageCount + ')</p>')
+    
+    var browserData = {
+        platform: navigator.platform,
+        browser: navigator.appName + " " + navigator.appVersion
+    }
+
+    socket.emit('deviceInfo', browserData);
 }
 
 function sendStuffP2P(otherEasyrtcid, msg) {

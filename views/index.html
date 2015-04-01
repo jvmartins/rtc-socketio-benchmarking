@@ -14,6 +14,8 @@
 		<script type="text/javascript" src="/socket.io/socket.io.js"></script>
 		<script type="text/javascript" src="/easyrtc/easyrtc.js"></script>
 
+		<script src="js/lib/Chart.min.js"></script>
+
 		<script src="js/commonRTC.js"></script>
 		
 		<script src="js/feedback.js"></script>
@@ -21,28 +23,37 @@
 
 	<body>
 		<div class="container vcenter">
-			<div class="row" style="height: 20%"></div>
-			<div class="row">
-				<div class="col-md-4 text-center">	
-					<div>
-						<h4>WebRTC Responses</h4> 
-						<div id="received-webRTC"></div>
-					</div>
-					<div>
-						<h4>SocketIO Responses</h4>
-						<div id="received-socketIO"></div>
-					</div>
-				</div>
-				<div class="col-md-8 text-left">
-					<div class="charts" id="bar-chart">
-						Bar Chart - WiFi Connection
-					</div>
+			<div class="row" style="height: 15%">
+				<div class="col-md-12 text-center">
+					<h1>WebRTC vs SocketIO - The Benchmarking</h1>
 				</div>
 			</div>
 			<div class="row">
+				<div class="col-md-4 text-center">	
+					<div>
+						<h5 class="rtc-legend">WebRTC Responses</h5> 
+					</div>
+					<div>
+						<h5 class="socketio-legend">SocketIO Responses</h5>
+					</div>
+				</div>
+				<div class="col-md-8 text-left">
+					<div class="charts">
+						<canvas id="bar-chart" width="400" height="400"></canvas>
+					</div>
+				</div>
+			</div>
+			</br>
+			<div class="row">
 				<div class="col-md-4 text-center"></div>
-				<div class="col-md-8 text-center" style="border: 1px solid black">
-					Device information
+				<div class="col-md-8 text-left" style="border: 1px solid black">
+					<fieldset>
+					  <legend>Device Information:</legend>
+					  Platform: <span id="device_platform"></span>
+					  </br>
+					  Browser: <span id="device_browser"></span>
+					  </br></br>
+					 </fieldset>
 				</div>
 			</div>
 		</div>
