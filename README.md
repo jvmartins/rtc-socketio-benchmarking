@@ -1,10 +1,10 @@
-WebRTC vs SocketIO - Benchmarking [![Build Status](https://travis-ci.org/jvmartins/rtc-socketio-benchmarking.svg?branch=master)](https://travis-ci.org/jvmartins/rtc-socketio-benchmarking)
+WebRTC vs SocketIO - The Benchmarking [![Build Status](https://travis-ci.org/jvmartins/rtc-socketio-benchmarking.svg?branch=master)](https://travis-ci.org/jvmartins/rtc-socketio-benchmarking)
 ==========================
 
-A Benchmarking for analysing time in exchanging data through SocketIO and WebRTC.
+A Benchmarking for analysing time in exchanging data using SocketIO and WebRTC connections.
 
-Results shown in Bar charts for:
+Results are shown in Bar charts for:
 - Time vs Technology analysis of each interaction
-- For each technology:
-  - Time vs Connection (Bluetooth, Wi-fi and 3G Network)
-  - Time vs Device (Client)
+- For each technology: (Coming up soon)
+  - Time vs Connection (Bluetooth and Local Wi-Fi)
+  - Time vs Device
