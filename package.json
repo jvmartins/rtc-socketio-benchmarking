@@ -1,11 +1,11 @@
 {
   "name": "rtc-socketio-benchmarking",
   "description": "NodeJS, PeerJS",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "author": "jmartins",
   "contributors": "https://github.com/jvmartins/rtc-socketio-benchmarking/graphs/contributors",
   "engines": {
-    "node": "0.10.x",
+    "iojs": "^1.6.x",
     "npm": "1.3.x"
   },
   "repository": {
