@@ -1,6 +1,6 @@
 var express = require('express');
 var easyrtc = require('easyrtc');
-
+var http = require('http');
 var app = express();
 
 app.use(express.static(__dirname + '/views'));
@@ -41,19 +41,42 @@ var myEasyrtcApp = function(err, appObj) {
     );
 };
 
-io.on('connection', function (socket) {
-  	socket.on('clientMessage', function (data) {
-  		var currentTimestamp = Date.now();
-  		io.emit('serverMessage', { 
-  			message : data.message, 
-  			date : currentTimestamp - data.date, 
-  			currentTimestamp : currentTimestamp,
-        messageId: data.messageId
-  		});
-      socket.on('deviceInfo', function (data) {
-        io.emit('deviceInfoFromServer', data);
-      });
-	});
+easyrtc.on("getIceConfig", function(connectionObj, callback){
+  http.get("http://api.turnservers.com/json/turn?key=DmlyGwApMafNgkizSanIGeUyNPYwWKxk", function(res){
+    var data = '';
+    res.on('data', function (chunk){
+      data += chunk;
+    });
+  
+    res.on('end',function(){
+      var tsPacket = JSON.parse(data);      
+      var iceConfig = [{url:"stun:stun.turnservers.com:3478"}];
+      for (var i = 0; i < tsPacket.uris.length; i++) {
+        iceConfig.push({
+          "url":tsPacket.uris[i],
+          "username":tsPacket.username,
+          "credential":tsPacket.password
+        });
+      }
+      callback(null, iceConfig);
+    })
+  
+  });
 
+});
+
+io.on('connection', function (socket) {
+	socket.on('clientMessage', function (data) {
+		var currentTimestamp = Date.now();
+		io.emit('serverMessage', { 
+			message : data.message, 
+			date : currentTimestamp - data.date, 
+			currentTimestamp : currentTimestamp,
+      messageId: data.messageId
+		});
+  });
+  socket.on('deviceInfo', function (data) {
+      io.emit('deviceInfoFromServer', data);
+  });
 });
 

@@ -1,14 +1,14 @@
 'use strict';
 
 // TO RUN LOCALLY
-// var socket = io.connect('http://localhost:3000');
+//var socket = io.connect('http://localhost:3000');
 var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
 
 var timeRtc;
 var timeSocket;
 var messageIdsRendered = {};
-var barChart;
 
+var barChart;
 var options = {
     scaleBeginAtZero : true,
     scaleShowGridLines : true,
@@ -58,31 +58,28 @@ function initializeBarChart(){
 function configureSocketIO(){
 	socket.on('serverMessage', function (data) {
 		var time = (Date.now() - data.currentTimestamp) + data.date;
-		console.log("SocketIO data: ");
-		console.log(time);
+		console.log("SocketIO data: " + data);
 		addToChart(time, "socketio", data.messageId);
-		//$('#received-socketIO').append('<span>"' + data.message + '" - in ' + time + ' milliseconds</span></br>');
 	});
 
-	socket.on('deviceInfoFromServer', function (data) {
-		console.log('device info');
-		$('#device_platform').html(data.platform);
-		$('#device_browser').html(data.browser);
-		//$('#received-socketIO').append('<span>"' + data.message + '" - in ' + time + ' milliseconds</span></br>');
-	});
+	socket.on('deviceInfoFromServer', setDeviceInfo);
 }
 
-// overwrite function
+function setDeviceInfo(data){
+	console.log('device info');
+	$('#device_platform').html(data.platform);
+	$('#device_browser').html(data.browser);
+}
+
+// Overwrites function
 function setRTCCustomListeners(){
     easyrtc.setPeerListener(listenToMessage);
 }
 
-function listenToMessage(who, msgType, content) {
-    var time = Date.now() - content.date;
-    console.log("RTC data: ");
-	console.log(content);
-    addToChart(time, "rtc", content.messageId);
-    //$('#received-webRTC').append('<span>"' + content.message + '" - in ' + time + ' milliseconds</span></br>');
+function listenToMessage(who, msgType, data) {
+    var time = Date.now() - data.date;
+    console.log("RTC data: " + data);
+    addToChart(time, "rtc", data.messageId);
 }
 
 function addToChart(time, technology, messageId) {

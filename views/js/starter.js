@@ -10,7 +10,7 @@ $(function(){
 
 function configureSocketIO(){
     // TO RUN LOCALLY
-    //socket = io.connect('http://localhost:3000');
+    // socket = io.connect('http://localhost:3000');
     socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
     //$('#connectionSocketIO').html('SocketIO Connected');
     $('#connectionSocketIO').parent().removeClass("red");
