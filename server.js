@@ -47,7 +47,7 @@ easyrtc.on("getIceConfig", function(connectionObj, callback){
     res.on('data', function (chunk){
       data += chunk;
     });
-  
+    
     res.on('end',function(){
       var tsPacket = JSON.parse(data);      
       var iceConfig = [{url:"stun:stun.turnservers.com:3478"}];
@@ -60,9 +60,7 @@ easyrtc.on("getIceConfig", function(connectionObj, callback){
       }
       callback(null, iceConfig);
     })
-  
   });
-
 });
 
 io.on('connection', function (socket) {
