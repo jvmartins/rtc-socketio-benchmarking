@@ -2,7 +2,7 @@
   "name": "rtc-socketio-benchmarking",
   "description": "NodeJS, PeerJS",
   "version": "0.0.1",
-  "author": "jmartins",
+  "author": "jvmartins",
   "homepage": "https://rtc-socketio-benchmarking.herokuapp.com/",
   "contributors": "https://github.com/jvmartins/rtc-socketio-benchmarking/graphs/contributors",
   "bugs": {
