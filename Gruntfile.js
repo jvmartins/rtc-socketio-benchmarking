@@ -14,7 +14,9 @@ module.exports = function (grunt) {
     browserify : {
 	  app : {
 	    files : { 
-	    	'public/build/js/starter.js' : ['public/js/starter.js']
+	    	'public/build/js/starter.js' : ['public/js/starter.js'],
+	    	'public/build/js/feedback.js' : ['public/js/feedback.js'],
+	    	'public/build/js/commonRTC.js' : ['public/js/commonRTC.js']
 	    }
 	  }
 	},
@@ -34,7 +36,7 @@ module.exports = function (grunt) {
 	},
 	watch: {
 		scripts: {
-			files: ['public/js/starter.js'],
+			files: ['public/js/*.js'],
 			tasks: ['browserify']
 		},
 	}

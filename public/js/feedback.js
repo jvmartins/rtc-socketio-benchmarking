@@ -2,6 +2,7 @@
 
 //var socket = io.connect('http://localhost:3000'); // To run locally
 var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
+var commonrtc = require('./commonRTC');
 
 var timeRtc;
 var timeSocket;
@@ -22,7 +23,9 @@ var options = {
 };
 
 $(function () {
-    configureRTCDataChannel();
+	commonrtc.setRTCCustomListeners = setRTCCustomListeners;
+
+    commonrtc.configureRTCDataChannel();
     configureSocketIO();
 
     initializeBarChart();

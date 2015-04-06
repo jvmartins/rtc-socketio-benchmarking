@@ -165,101 +165,120 @@ function loginFailure(errorCode, message) {
 } */
 
 },{}],2:[function(require,module,exports){
-var socket;
-var messageCount = 0;
-var serverEasyrtcid;
+'use strict';
+
+//var socket = io.connect('http://localhost:3000'); // To run locally
+var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
 var commonrtc = require('./commonRTC');
 
-$(function(){
-    $('#send').click(sendData);
-    commonrtc.setRTCCustomListeners = setCustomListener;
+var timeRtc;
+var timeSocket;
+var messageIdsRendered = {};
+
+var barChart;
+var options = {
+    scaleBeginAtZero : true,
+    scaleShowGridLines : true,
+    scaleGridLineColor : "rgba(0,0,0,.05)",
+    scaleGridLineWidth : 1,
+    scaleShowHorizontalLines: true,
+    scaleShowVerticalLines: true,
+    barShowStroke : true,
+    barStrokeWidth : 2,
+    barValueSpacing : 5,
+    barDatasetSpacing : 1
+};
+
+$(function () {
+	commonrtc.setRTCCustomListeners = setRTCCustomListeners;
 
     commonrtc.configureRTCDataChannel();
     configureSocketIO();
+
+    initializeBarChart();
 });
 
+function initializeBarChart(){
+	var ctx = document.getElementById("bar-chart").getContext("2d");
+	var data = {
+		labels: [],
+	    datasets: [
+	        {
+	            label: "SocketIO",
+	            fillColor: "rgba(220,220,220,0.5)",
+	            strokeColor: "rgba(220,220,220,0.8)",
+	            highlightFill: "rgba(220,220,220,0.75)",
+	            highlightStroke: "rgba(220,220,220,1)",
+	            data: []
+	        },
+	        {
+	            label: "RTC",
+	            fillColor: "rgba(151,187,205,0.5)",
+	            strokeColor: "rgba(151,187,205,0.8)",
+	            highlightFill: "rgba(151,187,205,0.75)",
+	            highlightStroke: "rgba(151,187,205,1)",
+	            data: []
+	        }
+	    ]
+	};
+	barChart = new Chart(ctx).Bar(data, options);
+}
+
 function configureSocketIO(){
-    //socket = io.connect('http://localhost:3000'); // To run locally
-    socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
-    $('#connectionSocketIO').parent().removeClass("red");
-    $('#connectionSocketIO').parent().addClass("green");
+	socket.on('serverMessage', function (data) {
+		var time = (Date.now() - data.currentTimestamp) + data.date;
+		console.log("SocketIO data: " + data);
+		addToChart(time, "socketio", data.messageId);
+	});
+
+	socket.on('deviceInfoFromServer', setDeviceInfo);
 }
 
-function setCustomListener(){
-    easyrtc.setRoomOccupantListener(automaticStartCall);
+function setDeviceInfo(data){
+	console.log('device info');
+	$('#device_platform').html(data.platform);
+	$('#device_browser').html(data.browser);
 }
 
-function automaticStartCall(roomName, occupantList) {
-	commonrtc.connectList = occupantList;
-    var numberOfOccupants = Object.keys(occupantList).length;
-    console.log("Occupant list updated, size: " + numberOfOccupants);
-    if(numberOfOccupants > 0) {
-    	for (var easyrtcid in commonrtc.connectList) {
-            console.log("Room occupant: " + easyrtcid);
-    		startCall(easyrtcid);
-    		serverEasyrtcid = easyrtcid;
-    	}
-    } else {
-        document.getElementById("send").disabled = true;
-        console.log("Not connected to any peer via datachannel");
-        $('#connectionRTC').parent().removeClass("green");
-        $('#connectionRTC').parent().addClass("red");
-    }
+// Overwrites function
+function setRTCCustomListeners(){
+    easyrtc.setPeerListener(listenToMessage);
 }
 
-function startCall(otherEasyrtcid) {
-    if (easyrtc.getConnectStatus(otherEasyrtcid) === easyrtc.NOT_CONNECTED) {
-        try {
-            easyrtc.call(otherEasyrtcid,
-                function(caller, media) {
-                    if (media === 'datachannel') {
-                        document.getElementById("send").disabled = false;
-                        console.log("Connected to peer via datachannel");
-                        //$('#connectionRTC').html("RTC Connected");
-                        $('#connectionRTC').parent().removeClass("red");
-                        $('#connectionRTC').parent().addClass("green");
-                        commonrtc.connectList[otherEasyrtcid] = true;
-                    }
-                },
-                function(errorCode, errorText) {
-                    commonrtc.connectList[otherEasyrtcid] = false;
-                    easyrtc.showError(errorCode, errorText);
-                },
-                function(wasAccepted) {
-                    console.log("Was accepted = " + wasAccepted);
-                });
-        } catch(callerror) {
-            console.log("Saw call error ", callerror);
-        }
-    } else {
-        console.log("Already connected to " + easyrtc.idToName(otherEasyrtcid));
-    }
+function listenToMessage(who, msgType, data) {
+    var time = Date.now() - data.date;
+    console.log("RTC data: " + data);
+    addToChart(time, "rtc", data.messageId);
 }
 
-function sendData() {
-    var strData = 'Message';
-    var jsonData = { message: strData, date: Date.now(), messageId: messageCount };
-
-    sendStuffP2P(serverEasyrtcid, jsonData); // Send message P2P via RTC
-    
-    socket.emit('clientMessage', jsonData); // Send SocketIO
-
-    $('#log').html('<p>Message Sent! (' + ++messageCount + ')</p>')
-    
-    var browserData = {
-        platform: navigator.platform,
-        browser: navigator.appName + " " + navigator.appVersion
-    }
-
-    socket.emit('deviceInfo', browserData);
+function addToChart(time, technology, messageId) {
+	console.log("addToChart");
+	if(technology == "socketio"){
+		console.log("socketio");
+		timeSocket = time;
+		renderBarChart(messageId);
+	}
+	if(technology == "rtc"){
+		console.log("rtc");
+		timeRtc = time;
+		renderBarChart(messageId);
+	}
+	
 }
 
-function sendStuffP2P(otherEasyrtcid, msg) {
-    if (easyrtc.getConnectStatus(otherEasyrtcid) === easyrtc.IS_CONNECTED) {
-        easyrtc.sendDataP2P(otherEasyrtcid, 'msg', msg);
-        console.log("Message sent to " + otherEasyrtcid);
-    } else {
-        easyrtc.showError("", "Not connected to " + easyrtc.idToName(otherEasyrtcid) + " yet.");
-    }
+function renderBarChart(messageId) {
+	console.log("Render bar chart: " + messageId);
+	setTimeout(function(){
+		if(!messageIdsRendered[messageId]){
+			messageIdsRendered[messageId] = true;	
+			
+			console.log("Times:" + timeSocket + " " + timeRtc)
+			barChart.addData([timeSocket, timeRtc], messageId);
+
+			timeRtc = undefined;
+			timeSocket = undefined;
+		}
+	}, 1000);
+	
 }
 },{"./commonRTC":1}]},{},[2]);
