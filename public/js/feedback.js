@@ -1,7 +1,7 @@
 'use strict';
 
-var socket = io.connect('http://localhost:3000'); // To run locally
-//var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
+//var socket = io.connect('http://localhost:3000'); // To run locally
+var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
 
 var timeRtc;
 var timeSocket;
