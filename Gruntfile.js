@@ -14,9 +14,9 @@ module.exports = function (grunt) {
     browserify : {
 	  app : {
 	    files : { 
+	    	'public/build/js/commonRTC.js' : ['public/js/commonRTC.js'],
 	    	'public/build/js/starter.js' : ['public/js/starter.js'],
-	    	'public/build/js/feedback.js' : ['public/js/feedback.js'],
-	    	'public/build/js/commonRTC.js' : ['public/js/commonRTC.js']
+	    	'public/build/js/feedback.js' : ['public/js/feedback.js']
 	    }
 	  }
 	},
@@ -37,17 +37,28 @@ module.exports = function (grunt) {
 	watch: {
 		scripts: {
 			files: ['public/js/*.js'],
-			tasks: ['browserify']
+			tasks: ['browserify', 'uglify']
 		},
+	},
+	uglify: {
+		options: {
+    	},
+	    main: {
+	      files: {
+	        'public/build/js/starter.min.js': ['public/build/js/starter.js'],
+	        'public/build/js/feedback.min.js': ['public/build/js/feedback.js']
+	      }
+	    }
 	}
   })
 
+  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-bower-task');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
   grunt.registerTask('build-dev', ['bower:install', 'browserify', 'express:dev']);
-  grunt.registerTask('default', ['express:background', 'browserify', 'watch'])
+  grunt.registerTask('default', ['express:background', 'browserify', 'uglify', 'watch'])
 
 }
