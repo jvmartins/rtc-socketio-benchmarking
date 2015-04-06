@@ -2,6 +2,7 @@
   "name": "rtc-socketio-benchmarking",
   "dependencies": {
     "jquery": ">= 1.9.1",
-    "bootstrap": "3.3.2"
+    "bootstrap": "^3.3.2",
+    "Chart.js": "~1.0.2"
   }
 }

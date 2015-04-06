@@ -1,32 +1,33 @@
 var socket;
 var messageCount = 0;
+var serverEasyrtcid;
+var commonrtc = require('./commonRTC');
 
 $(function(){
     $('#send').click(sendData);
+    commonrtc.setRTCCustomListeners(customListener);
 
-	configureRTCDataChannel();
+    commonrtc.configureRTCDataChannel();
     configureSocketIO();
 });
 
 function configureSocketIO(){
-    // TO RUN LOCALLY
-    // socket = io.connect('http://localhost:3000');
-    socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
-    //$('#connectionSocketIO').html('SocketIO Connected');
+    socket = io.connect('http://localhost:3000'); // To run locally
+    // socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
     $('#connectionSocketIO').parent().removeClass("red");
     $('#connectionSocketIO').parent().addClass("green");
 }
 
-function setRTCCustomListeners(){
+function customListener(){
     easyrtc.setRoomOccupantListener(automaticStartCall);
 }
 
 function automaticStartCall(roomName, occupantList) {
-	connectList = occupantList;
+	commonrtc.connectList = occupantList;
     var numberOfOccupants = Object.keys(occupantList).length;
     console.log("Occupant list updated, size: " + numberOfOccupants);
     if(numberOfOccupants > 0) {
-    	for (var easyrtcid in connectList) {
+    	for (var easyrtcid in commonrtc.connectList) {
             console.log("Room occupant: " + easyrtcid);
     		startCall(easyrtcid);
     		serverEasyrtcid = easyrtcid;
@@ -50,11 +51,11 @@ function startCall(otherEasyrtcid) {
                         //$('#connectionRTC').html("RTC Connected");
                         $('#connectionRTC').parent().removeClass("red");
                         $('#connectionRTC').parent().addClass("green");
-                        connectList[otherEasyrtcid] = true;
+                        commonrtc.connectList[otherEasyrtcid] = true;
                     }
                 },
                 function(errorCode, errorText) {
-                    connectList[otherEasyrtcid] = false;
+                    commonrtc.connectList[otherEasyrtcid] = false;
                     easyrtc.showError(errorCode, errorText);
                 },
                 function(wasAccepted) {

@@ -1,12 +1,12 @@
 var express = require('express');
 var easyrtc = require('easyrtc');
 var http = require('http');
+
 var app = express();
 
-app.use(express.static(__dirname + '/views'));
-
+app.use(express.static(__dirname + '/public'));
 app.get('/', function (req, res) {
-    res.render('/views/index.html')
+    res.render('/public/index.html')
 });
 
 var server = app.listen(process.env.PORT || 3000, function () {
@@ -47,15 +47,14 @@ easyrtc.on("getIceConfig", function(connectionObj, callback){
     res.on('data', function (chunk){
       data += chunk;
     });
-    
     res.on('end',function(){
       var tsPacket = JSON.parse(data);      
       var iceConfig = [{url:"stun:stun.turnservers.com:3478"}];
       for (var i = 0; i < tsPacket.uris.length; i++) {
         iceConfig.push({
-          "url":tsPacket.uris[i],
-          "username":tsPacket.username,
-          "credential":tsPacket.password
+          "url": tsPacket.uris[i],
+          "username": tsPacket.username,
+          "credential": tsPacket.password
         });
       }
       callback(null, iceConfig);
