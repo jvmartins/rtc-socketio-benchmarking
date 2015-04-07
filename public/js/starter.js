@@ -1,18 +1,21 @@
+var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
+
+var $ = require('jquery');
+var commonrtc = require('./commonRTC');
+
 var socket;
 var messageCount = 0;
 var serverEasyrtcid;
-var commonrtc = require('./commonRTC');
 
 $(function(){
     $('#send').click(sendData);
     commonrtc.setRTCCustomListeners = setCustomListener;
 
     commonrtc.configureRTCDataChannel();
-    configureSocketIO();
+    configureSocketIO();    
 });
 
 function configureSocketIO(){
-    //socket = io.connect('http://localhost:3000'); // To run locally
     socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
     $('#connectionSocketIO').parent().removeClass("red");
     $('#connectionSocketIO').parent().addClass("green");

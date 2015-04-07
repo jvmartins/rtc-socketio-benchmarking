@@ -1,16 +1,6 @@
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    bower : {
-      install : {
-        options : {
-          targetDir : 'bower_components',
-          layout : 'byComponent',
-          verbose: true,
-          cleanup: true
-        }
-      }
-    },
     browserify : {
 	  app : {
 	    files : { 
@@ -58,7 +48,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-express-server');
   grunt.loadNpmTasks('grunt-contrib-watch');
   
-  grunt.registerTask('build-dev', ['bower:install', 'browserify', 'express:dev']);
+  grunt.registerTask('build-dev', ['browserify', 'express:dev', 'watch']);
   grunt.registerTask('default', ['express:background', 'browserify', 'uglify', 'watch'])
 
 }
