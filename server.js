@@ -5,9 +5,12 @@ var http = require('http');
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
+app.use('/bootstrap/css', express.static(__dirname + '/node_modules/bootstrap/dist/css/'));
+
 app.get('/', function (req, res) {
     res.render('/public/index.html')
 });
+
 
 var server = app.listen(process.env.PORT || 3000, function () {
   var host = server.address().address;
