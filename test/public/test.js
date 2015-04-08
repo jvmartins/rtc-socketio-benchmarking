@@ -1,28 +1,33 @@
-//"use strict";
 var assert = require("assert");
 var common = require("../../public/js/commonRTC.js");
 
-describe('Array', function(){
+describe('CommonRTC', function(){
 
-    it.skip('should increment message count after send message', function(){
-        common.loginSuccess("123");
-        assert(1,1);
+    beforeEach(function(){
+        common.setPropertiesRTC = function (){};
+        common.setListeners = function (){};
+        common.connectRTC = function (){};
+        
+        easyrtc = {};
+        errorCode = "any";
+    })
+
+    it('should overwrite and call custom listeners', function(){
+        var overwriten = false;
+        common.setRTCCustomListeners = function () {
+            overwriten = true;
+        };
+        common.configureRTCDataChannel();
+        assert(overwriten);
     });
 
-    it('should call easyrtc error handling', function(){
-
-        //arrange
-        easyrtc = {};
-        errorCode = {};
+    it('should call easyrtc error handling on Login Failure', function(){
         var ok = false;
         easyrtc.showError = function(a,b){
-            //console.log("overwritten");
             ok = true;
         };
-
         //act
         common.loginFailure();
-
         //asset
         assert(ok);
     });

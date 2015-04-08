@@ -9251,16 +9251,14 @@ module.exports = {
     }
 };
 },{}],3:[function(require,module,exports){
-var socket = "Hi";//getConnection();
+var URL_BASE = 'http://rtc-socketio-benchmarking.herokuapp.com/';
+var socket = getConnection();
 
 var $ = require('jquery');
 var commonrtc = require('./commonRTC');
 
-//var socket;
 var messageCount = 0;
 var serverEasyrtcid;
-
-var URL_BASE = 'http://rtc-socketio-benchmarking.herokuapp.com/';
 
 $(function(){
     $('#send').click(sendData);
@@ -9271,7 +9269,6 @@ $(function(){
 });
 
 function configureSocketIO(){
-    //socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
     $('#connectionSocketIO').parent().removeClass("red");
     $('#connectionSocketIO').parent().addClass("green");
 }
@@ -9332,7 +9329,6 @@ function sendData() {
     var jsonData = { message: strData, date: Date.now(), messageId: messageCount };
 
     sendStuffP2P(serverEasyrtcid, jsonData); // Send message P2P via RTC
-    
     socket.emit('clientMessage', jsonData); // Send SocketIO
 
     $('#log').html('<p>Message Sent! (' + ++messageCount + ')</p>')
