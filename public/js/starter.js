@@ -1,11 +1,13 @@
-var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
+var socket = "Hi";//getConnection();
 
 var $ = require('jquery');
 var commonrtc = require('./commonRTC');
 
-var socket;
+//var socket;
 var messageCount = 0;
 var serverEasyrtcid;
+
+var URL_BASE = 'http://rtc-socketio-benchmarking.herokuapp.com/';
 
 $(function(){
     $('#send').click(sendData);
@@ -16,7 +18,7 @@ $(function(){
 });
 
 function configureSocketIO(){
-    socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
+    //socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
     $('#connectionSocketIO').parent().removeClass("red");
     $('#connectionSocketIO').parent().addClass("green");
 }
@@ -97,4 +99,8 @@ function sendStuffP2P(otherEasyrtcid, msg) {
     } else {
         easyrtc.showError("", "Not connected to " + easyrtc.idToName(otherEasyrtcid) + " yet.");
     }
+}
+
+function getConnection(){
+    return io.connect(URL_BASE);
 }
