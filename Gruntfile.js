@@ -50,5 +50,6 @@ module.exports = function (grunt) {
   
   grunt.registerTask('build-dev', ['browserify', 'express:dev', 'watch']);
   grunt.registerTask('default', ['express:background', 'browserify', 'uglify', 'watch'])
+  grunt.registerTask('travis', ['browserify', 'uglify'])
 
 }

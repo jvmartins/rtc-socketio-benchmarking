@@ -4,7 +4,7 @@ node_js:
   - 'iojs'
 before_script:
   - 'npm install -g grunt-cli'
-  - 'grunt'
+  - 'grunt travis'
 deploy:
   provider: heroku
   api_key: "686470c8-1bd9-46f5-a635-b287bc7ccdb7"
