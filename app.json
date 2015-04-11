@@ -1,5 +1,5 @@
 {
-  "name": "WebRTC vs SocketIO - The Benchmarking",
+  "name": "WebRTC vs SocketIO",
   "description": "A benchmarking between WebRTC and SocketIO",
   "repository": "https://github.com/jvmartins/rtc-socketio-benchmarking",
   "keywords": ["node", "express", "static"]
