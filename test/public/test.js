@@ -10,7 +10,7 @@ describe('CommonRTC', function(){
         
         easyrtc = {};
         errorCode = "any";
-    })
+    });
 
     it('should overwrite and call custom listeners', function(){
         var overwriten = false;

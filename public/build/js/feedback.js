@@ -12817,12 +12817,12 @@ function listenToMessage(who, msgType, data) {
 
 function addToChart(time, technology, messageId) {
 	console.log("addToChart");
-	if(technology == "socketio"){
+	if(technology === "socketio"){
 		console.log("socketio");
 		timeSocket = time;
 		renderBarChart(messageId);
 	}
-	if(technology == "rtc"){
+	if(technology === "rtc"){
 		console.log("rtc");
 		timeRtc = time;
 		renderBarChart(messageId);
@@ -12836,7 +12836,7 @@ function renderBarChart(messageId) {
 		if(!messageIdsRendered[messageId]){
 			messageIdsRendered[messageId] = true;	
 			
-			console.log("Times:" + timeSocket + " " + timeRtc)
+			console.log("Times:" + timeSocket + " " + timeRtc);
 			barChart.addData([timeSocket, timeRtc], messageId);
 
 			timeRtc = undefined;

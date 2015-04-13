@@ -78,12 +78,14 @@ function sendData() {
     sendStuffP2P(serverEasyrtcid, jsonData); // Send message P2P via RTC
     socket.emit('clientMessage', jsonData); // Send SocketIO
 
-    $('#log').html('<p>Message Sent! (' + ++messageCount + ')</p>')
+    messageCount++;
+
+    $('#log').html('<p>Message Sent! (' + messageCount + ')</p>');
     
     var browserData = {
         platform: navigator.platform,
         browser: navigator.appName + " " + navigator.appVersion
-    }
+    };
 
     socket.emit('deviceInfo', browserData);
 }
