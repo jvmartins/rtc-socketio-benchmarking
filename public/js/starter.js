@@ -72,22 +72,22 @@ function startCall(otherEasyrtcid) {
 }
 
 function sendData() {
+    document.getElementById("send").disabled = true;
     var strData = 'Message';
+    messageCount++;
+
     var jsonData = { message: strData, date: Date.now(), messageId: messageCount };
 
     sendStuffP2P(serverEasyrtcid, jsonData); // Send message P2P via RTC
     socket.emit('clientMessage', jsonData); // Send SocketIO
 
-    messageCount++;
+    setTimeout(function(){
+        document.getElementById("send").disabled = false;
+    }, 850);
 
     $('#log').html('<p>Message Sent! (' + messageCount + ')</p>');
-    
-    var browserData = {
-        platform: navigator.platform,
-        browser: navigator.appName + " " + navigator.appVersion
-    };
 
-    socket.emit('deviceInfo', browserData);
+    socket.emit('deviceInfo', navigator.userAgent);
 }
 
 function sendStuffP2P(otherEasyrtcid, msg) {

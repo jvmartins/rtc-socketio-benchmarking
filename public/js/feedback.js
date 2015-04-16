@@ -1,5 +1,6 @@
 var socket = io.connect('http://rtc-socketio-benchmarking.herokuapp.com/');
-
+var UAParser = require('ua-parser-js');
+var parser = new UAParser();
 var $ = require('jquery');
 var commonrtc = require('./commonRTC');
 var Chart = require('chart.js');
@@ -69,8 +70,11 @@ function configureSocketIO(){
 
 function setDeviceInfo(data){
 	console.log('device info');
-	$('#device_platform').html(data.platform);
-	$('#device_browser').html(data.browser);
+	var stringData = JSON.stringify(data);
+	parser.setUA(stringData);
+	
+	$('#device_platform').html(parser.getOS().name);
+	$('#device_browser').html(parser.getBrowser().name);
 }
 
 // Overwrites function
@@ -101,16 +105,17 @@ function addToChart(time, technology, messageId) {
 
 function renderBarChart(messageId) {
 	console.log("Render bar chart: " + messageId);
+	var interactionId = "Interaction " + messageId;
 	setTimeout(function(){
-		if(!messageIdsRendered[messageId]){
-			messageIdsRendered[messageId] = true;	
+		if(!messageIdsRendered[interactionId]){
+			messageIdsRendered[interactionId] = true;	
 			
 			console.log("Times:" + timeSocket + " " + timeRtc);
-			barChart.addData([timeSocket, timeRtc], messageId);
+			barChart.addData([timeSocket, timeRtc], interactionId);
 
 			timeRtc = undefined;
 			timeSocket = undefined;
 		}
-	}, 1000);
+	}, 500);
 	
 }
