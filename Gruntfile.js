@@ -25,10 +25,10 @@ module.exports = function (grunt) {
 		    }
 		},
 		watch: {
-			scripts: {
+			js: {
 				files: ['public/js/*.js'],
 				tasks: ['browserify', 'uglify']
-			},
+			}
 		},
 		uglify: {
 			options: {
