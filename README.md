@@ -5,7 +5,7 @@ A Benchmarking for analysing time in exchanging data using SocketIO and WebRTC c
 
 Results are shown in Bar charts for:
 - Time vs Technology analysis of each interaction
-- For each technology: (Coming up soon)
+- For each technology: (Coming up)
   - Time vs Connection (Bluetooth and Local Wi-Fi)
   - Time vs Device
 
