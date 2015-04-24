@@ -26,9 +26,7 @@ describe('CommonRTC', function(){
         easyrtc.showError = function(a,b){
             ok = true;
         };
-        //act
         common.loginFailure();
-        //asset
         assert(ok);
     });
 
